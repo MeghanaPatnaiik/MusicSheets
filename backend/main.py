@@ -25,6 +25,8 @@ from auth import (
 from database import Base, engine, get_db
 from models import User
 
+from api.upload import router as upload_router
+
 # ---------------------------------------------------------------------------
 # Create tables on startup
 # ---------------------------------------------------------------------------
@@ -42,6 +44,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(upload_router, prefix="/api")
+
 
 
 # ---------------------------------------------------------------------------

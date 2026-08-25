@@ -21,20 +21,27 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
 COOKIE_NAME = "access_token"
 
+import bcrypt
 
 # ---------------------------------------------------------------------------
 # Password helpers (using bcrypt directly for compatibility with bcrypt 4.1+/5.0)
 # ---------------------------------------------------------------------------
 
 def hash_password(plain: str) -> str:
-    pwd_bytes = plain.encode('utf-8')[:72]
+    # Truncate password to 72 bytes if needed to adhere to bcrypt standard limits
+    plain_bytes = plain.encode("utf-8")[:72]
     salt = bcrypt.gensalt()
-    return bcrypt.hashpw(pwd_bytes, salt).decode('utf-8')
+    return bcrypt.hashpw(plain_bytes, salt).decode("utf-8")
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    pwd_bytes = plain.encode('utf-8')[:72]
-    return bcrypt.checkpw(pwd_bytes, hashed.encode('utf-8'))
+    plain_bytes = plain.encode("utf-8")[:72]
+    hashed_bytes = hashed.encode("utf-8")
+    try:
+        return bcrypt.checkpw(plain_bytes, hashed_bytes)
+    except Exception:
+        return False
+
 
 
 # ---------------------------------------------------------------------------
