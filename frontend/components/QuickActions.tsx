@@ -78,7 +78,7 @@ export default function QuickActions() {
           width: 200px;
           height: 200px;
           border-radius: 50%;
-          background: radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%);
+          background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
           pointer-events: none;
         }
 
@@ -153,7 +153,7 @@ export default function QuickActions() {
           padding: 0.45rem 0.75rem;
           border-radius: 0.625rem;
           border: 1px solid var(--glass-border);
-          background: rgba(255, 255, 255, 0.04);
+          background: rgba(255, 255, 255, 0.9);
           color: var(--text-muted);
           font-size: 0.75rem;
           font-weight: 500;
@@ -164,9 +164,9 @@ export default function QuickActions() {
           white-space: nowrap;
         }
         .qa-chip:hover {
-          border-color: rgba(255, 255, 255, 0.2);
-          color: var(--text-primary);
-          background: rgba(255, 255, 255, 0.07);
+          border-color: rgba(99, 102, 241, 0.3);
+          color: var(--accent-from);
+          background: rgba(99, 102, 241, 0.06);
         }
       `}</style>
     </div>

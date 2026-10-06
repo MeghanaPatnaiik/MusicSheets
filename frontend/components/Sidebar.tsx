@@ -211,7 +211,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           }
           .sidebar--open {
             transform: translateX(0);
-            box-shadow: 4px 0 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 4px 0 40px rgba(0, 0, 0, 0.12);
           }
         }
 
@@ -219,7 +219,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         .sidebar-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(0, 0, 0, 0.55);
+          background: rgba(15, 23, 42, 0.3);
           backdrop-filter: blur(2px);
           z-index: 39;
         }
@@ -285,7 +285,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         }
         .sidebar-link:hover {
           color: var(--text-primary);
-          background: rgba(255, 255, 255, 0.05);
+          background: rgba(15, 23, 42, 0.04);
         }
         .sidebar-link--active {
           color: var(--accent-from);
@@ -373,9 +373,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           width: 100%;
         }
         .sidebar-logout-btn:hover {
-          border-color: rgba(248, 113, 113, 0.5);
-          color: #f87171;
-          background: rgba(248, 113, 113, 0.06);
+          border-color: rgba(220, 38, 38, 0.4);
+          color: #dc2626;
+          background: rgba(220, 38, 38, 0.06);
         }
       `}</style>
     </>

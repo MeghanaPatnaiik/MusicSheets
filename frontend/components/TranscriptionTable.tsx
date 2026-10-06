@@ -57,7 +57,7 @@ function SkeletonRow() {
     display: "block",
     height: "0.875rem",
     borderRadius: "0.375rem",
-    background: "linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%)",
+    background: "linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%)",
     backgroundSize: "200% 100%",
     animation: "shimmer 1.4s ease-in-out infinite",
   } as React.CSSProperties;
@@ -165,14 +165,14 @@ export default function TranscriptionTable({ items, loading = false }: Transcrip
         }
 
         .table-row {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+          border-bottom: 1px solid rgba(15, 23, 42, 0.06);
           transition: background 0.15s var(--ease-default);
         }
         .table-row:last-child {
           border-bottom: none;
         }
         .table-row:hover {
-          background: rgba(255, 255, 255, 0.025);
+          background: rgba(99, 102, 241, 0.04);
         }
 
         .table-cell {

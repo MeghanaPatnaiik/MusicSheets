@@ -20,24 +20,24 @@ export interface StatCardProps {
 
 const COLOR_MAP = {
   indigo: {
-    iconBg: "rgba(99,102,241,0.15)",
-    iconColor: "#818cf8",
-    glow: "rgba(99,102,241,0.12)",
+    iconBg: "rgba(99,102,241,0.12)",
+    iconColor: "#6366f1",
+    glow: "rgba(99,102,241,0.18)",
   },
   green: {
-    iconBg: "rgba(34,197,94,0.15)",
-    iconColor: "#4ade80",
-    glow: "rgba(34,197,94,0.10)",
+    iconBg: "rgba(22,163,74,0.12)",
+    iconColor: "#16a34a",
+    glow: "rgba(22,163,74,0.16)",
   },
   amber: {
-    iconBg: "rgba(251,191,36,0.15)",
-    iconColor: "#fbbf24",
-    glow: "rgba(251,191,36,0.10)",
+    iconBg: "rgba(217,119,6,0.12)",
+    iconColor: "#b45309",
+    glow: "rgba(217,119,6,0.16)",
   },
   violet: {
-    iconBg: "rgba(139,92,246,0.15)",
-    iconColor: "#a78bfa",
-    glow: "rgba(139,92,246,0.12)",
+    iconBg: "rgba(139,92,246,0.12)",
+    iconColor: "#7c3aed",
+    glow: "rgba(139,92,246,0.18)",
   },
 };
 
@@ -66,7 +66,7 @@ const TREND_ICONS = {
 export default function StatCard({ icon, label, value, subtext, color = "indigo", trend }: StatCardProps) {
   const { iconBg, iconColor, glow } = COLOR_MAP[color];
 
-  const trendColorMap = { up: "#4ade80", down: "#f87171", neutral: "#94a3b8" };
+  const trendColorMap = { up: "#16a34a", down: "#dc2626", neutral: "#64748b" };
   const trendColor = trend ? trendColorMap[trend.direction] : undefined;
 
   return (
@@ -128,7 +128,7 @@ export default function StatCard({ icon, label, value, subtext, color = "indigo"
         }
         .stat-card:hover {
           transform: translateY(-3px);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+          box-shadow: 0 8px 28px rgba(15, 23, 42, 0.10);
         }
 
         .stat-card-icon {
