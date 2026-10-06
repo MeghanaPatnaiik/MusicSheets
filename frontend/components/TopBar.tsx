@@ -61,7 +61,7 @@ export default function TopBar({ pageTitle, onMenuToggle, isSidebarOpen }: TopBa
           align-items: center;
           gap: 1rem;
           padding: 0 1.5rem;
-          background: rgba(11, 15, 26, 0.8);
+          background: rgba(245, 246, 250, 0.85);
           border-bottom: 1px solid var(--glass-border);
           backdrop-filter: blur(14px);
           -webkit-backdrop-filter: blur(14px);
@@ -86,8 +86,8 @@ export default function TopBar({ pageTitle, onMenuToggle, isSidebarOpen }: TopBa
         }
         .topbar-menu-btn:hover {
           color: var(--text-primary);
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(255, 255, 255, 0.14);
+          background: rgba(15, 23, 42, 0.06);
+          border-color: rgba(15, 23, 42, 0.14);
         }
 
         @media (max-width: 767px) {

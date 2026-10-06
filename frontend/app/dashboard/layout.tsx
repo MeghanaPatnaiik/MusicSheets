@@ -69,8 +69,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           display: flex;
           min-height: 100vh;
           background:
-            radial-gradient(ellipse 70% 60% at 95% 5%, rgba(99,102,241,0.1) 0%, transparent 55%),
-            radial-gradient(ellipse 50% 40% at 5% 90%, rgba(139,92,246,0.07) 0%, transparent 50%),
+            radial-gradient(ellipse 70% 60% at 95% 5%, rgba(99,102,241,0.06) 0%, transparent 55%),
+            radial-gradient(ellipse 50% 40% at 5% 90%, rgba(139,92,246,0.05) 0%, transparent 50%),
             var(--bg-base);
         }
 

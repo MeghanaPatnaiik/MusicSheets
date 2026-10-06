@@ -169,9 +169,9 @@ export default function DashboardPage() {
         .skeleton {
           border-radius: 0.5rem;
           background: linear-gradient(90deg,
-            rgba(255,255,255,0.04) 25%,
-            rgba(255,255,255,0.08) 50%,
-            rgba(255,255,255,0.04) 75%);
+            #e2e8f0 25%,
+            #f1f5f9 50%,
+            #e2e8f0 75%);
           background-size: 200% 100%;
           animation: shimmer 1.4s ease-in-out infinite;
         }
@@ -249,8 +249,8 @@ export default function DashboardPage() {
         .section-badge {
           font-size: 0.75rem;
           color: var(--text-muted);
-          background: rgba(255,255,255,0.05);
-          border: 1px solid var(--glass-border);
+          background: rgba(99,102,241,0.08);
+          border: 1px solid rgba(99,102,241,0.18);
           border-radius: 9999px;
           padding: 0.2rem 0.65rem;
           font-weight: 500;
