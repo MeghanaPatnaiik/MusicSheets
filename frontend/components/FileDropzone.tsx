@@ -127,10 +127,10 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         className={`relative w-full rounded-2xl border-2 border-dashed p-8 text-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 ${isDragging
-            ? "border-indigo-400 bg-indigo-500/10 shadow-lg shadow-indigo-500/10 scale-[1.01]"
-            : selectedFile
-              ? "border-indigo-500/40 bg-slate-900/60"
-              : "border-slate-700/80 bg-slate-900/40 hover:border-indigo-500/50 hover:bg-slate-900/60 cursor-pointer"
+          ? "border-indigo-400 bg-indigo-500/10 shadow-lg shadow-indigo-500/10 scale-[1.01]"
+          : selectedFile
+            ? "border-indigo-500/40 bg-slate-900/60"
+            : "border-slate-700/80 bg-slate-900/40 hover:border-indigo-500/50 hover:bg-slate-900/60 cursor-pointer"
           }`}
       >
         <input
@@ -192,6 +192,7 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
             </div>
           </div>
         ) : (
+
           <div className="flex items-center justify-between p-2">
             <div className="flex items-center space-x-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
@@ -206,9 +207,9 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
                 )}
               </div>
               <div className="text-left">
-                <p className="text-sm font-semibold text-slate-100 truncate max-w-xs">{selectedFile.name}</p>
+                <p className="text-sm font-semibold text-slate-100 truncate max-w-xs">{selectedFile?.name}</p>
                 <p className="text-xs text-slate-400">
-                  {formatFileSize(selectedFile.size)} • {isPdf ? "PDF Document" : "Audio File"}
+                  {formatFileSize(selectedFile?.size ?? 0)} • {isPdf ? "PDF Document" : "Audio File"}
                 </p>
               </div>
             </div>
