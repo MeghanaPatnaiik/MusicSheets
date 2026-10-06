@@ -1,0 +1,16 @@
+services:
+  backend:
+    build: ./backend
+    container_name: musicsheets-backend-compose
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    container_name: musicsheets-frontend-compose
+    ports:
+      - "3001:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8000
+    depends_on:
+      - backend
