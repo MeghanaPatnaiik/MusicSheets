@@ -54,8 +54,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 bat 'docker compose down'
-                bat 'docker compose pull'
-                bat 'set IMAGE_TAG=%IMAGE_TAG% && docker compose up -d'
+                bat 'set "IMAGE_TAG=%IMAGE_TAG%" && docker compose pull'
+                bat 'set "IMAGE_TAG=%IMAGE_TAG%" && docker compose up -d'
                 bat 'docker compose ps'
             }
 }
