@@ -15,7 +15,7 @@ pipeline {
 
         stage('Automated Test / Validation') {
             steps {
-                bat 'docker compose invalid-test-command'
+                bat 'docker compose config'
             }
         }
 
