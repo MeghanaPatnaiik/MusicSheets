@@ -13,7 +13,7 @@ pipeline {
             }
         }
 
-        stage('Validate Docker Compose') {
+        stage('Automated Test / Validation') {
             steps {
                 bat 'docker compose config'
             }
