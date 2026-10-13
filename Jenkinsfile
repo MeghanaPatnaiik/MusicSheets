@@ -55,6 +55,7 @@ environment {
         }
    
 
+
 stage('Deploy to Render') {
     steps {
         withCredentials([
@@ -64,14 +65,15 @@ stage('Deploy to Render') {
                    variable: 'RENDER_FRONTEND_HOOK')
         ]) {
             bat '''
-                powershell -NoProfile -NonInteractive -Command "$ErrorActionPreference = 'Stop'; Invoke-WebRequest -Uri $env:RENDER_BACKEND_HOOK -Method Post"
-            '''
-            bat '''
-                powershell -NoProfile -NonInteractive -Command "$ErrorActionPreference = 'Stop'; Invoke-WebRequest -Uri $env:RENDER_FRONTEND_HOOK -Method Post"
+                curl.exe -sS -f -X POST "%RENDER_BACKEND_HOOK%"
+                if errorlevel 1 exit /b 1
+                curl.exe -sS -f -X POST "%RENDER_FRONTEND_HOOK%"
+                if errorlevel 1 exit /b 1
             '''
         }
     }
 }
+
 
     }
 
