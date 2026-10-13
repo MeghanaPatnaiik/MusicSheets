@@ -19,12 +19,35 @@ pipeline {
             }
         }
 
-        stage('Build Docker Images') {
-            steps {
-                bat 'set "IMAGE_TAG=%IMAGE_TAG%" && docker compose build'
-                bat 'docker images'
-            }
+       
+stage('Deploy to Render') {
+    steps {
+        withCredentials([
+            string(
+                credentialsId: 'render-frontend-deploy-hook',
+                variable: 'RENDER_FRONTEND_HOOK'
+            ),
+            string(
+                credentialsId: 'render-backend-deploy-hook',
+                variable: 'RENDER_BACKEND_HOOK'
+            )
+        ]) {
+            bat '''
+                @echo off
+                echo Triggering Render frontend deployment...
+                curl --fail --silent --show-error "%RENDER_FRONTEND_HOOK%"
+                if errorlevel 1 exit /b 1
+
+                echo Triggering Render backend deployment...
+                curl --fail --silent --show-error "%RENDER_BACKEND_HOOK%"
+                if errorlevel 1 exit /b 1
+
+                echo Render deployment requests submitted.
+            '''
         }
+    }
+}
+
 
         stage('Tag Latest Images') {
             steps {
