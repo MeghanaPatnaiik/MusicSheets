@@ -24,7 +24,7 @@ export interface UseAudioUploadReturn {
   reset: () => void;
 }
 
-export function useAudioUpload(apiUrl: string = "http://localhost:8000/api/upload"): UseAudioUploadReturn {
+export function useAudioUpload(apiUrl: string = `${process.env.NEXT_PUBLIC_API_URL}/api/upload`): UseAudioUploadReturn {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<UploadStatus>("idle");
   const [progress, setProgress] = useState<number>(0);
@@ -97,7 +97,7 @@ export function useAudioUpload(apiUrl: string = "http://localhost:8000/api/uploa
           try {
             const errData = JSON.parse(xhr.responseText);
             if (errData.detail) errorMsg = errData.detail;
-          } catch (_) {}
+          } catch (_) { }
 
           // Fallback simulation if backend server is unreachable in offline/dev preview
           if (xhr.status === 0 || xhr.status === 404) {
