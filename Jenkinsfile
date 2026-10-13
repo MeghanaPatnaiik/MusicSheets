@@ -18,7 +18,7 @@ environment {
 
         stage('Automated Test / Validation') {
             steps {
-                bat 'docker compose config'
+                 bat 'exit /b 1'
             }
         }
 
