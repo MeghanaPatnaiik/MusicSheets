@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/lib/auth-context";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API = "https://musicsheets-backend.onrender.com";
 
 async function registerUser(name: string, email: string, password: string) {
   const res = await fetch(`${API}/auth/register`, {

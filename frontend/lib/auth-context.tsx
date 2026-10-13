@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API = "https://musicsheets-backend.onrender.com";
 
 // ---------------------------------------------------------------------------
 // Types
