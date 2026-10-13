@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // Routes that require an authenticated user
-const PROTECTED_ROUTES = ["/dashboard"];
+const PROTECTED_ROUTES = ["/dashboard", "/upload", "/my-sheets", "/settings"];
 
 // Routes that should redirect to /dashboard when already logged in
 const AUTH_ROUTES = ["/login"];
@@ -10,8 +10,8 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("access_token")?.value;
 
-  const isProtected = PROTECTED_ROUTES.some((r) => pathname.startsWith(r));
-  const isAuthRoute = AUTH_ROUTES.some((r) => pathname.startsWith(r));
+  const isProtected = PROTECTED_ROUTES.some((r) => pathname === r || pathname.startsWith(`${r}/`));
+  const isAuthRoute = AUTH_ROUTES.some((r) => pathname === r || pathname.startsWith(`${r}/`));
 
   // Redirect unauthenticated users away from protected routes
   if (isProtected && !token) {
@@ -32,5 +32,11 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   // Run middleware on these paths only (skip static assets, api routes, etc.)
-  matcher: ["/dashboard/:path*", "/login/:path*"],
+  matcher: [
+    "/dashboard/:path*",
+    "/upload/:path*",
+    "/my-sheets/:path*",
+    "/settings/:path*",
+    "/login",
+  ],
 };

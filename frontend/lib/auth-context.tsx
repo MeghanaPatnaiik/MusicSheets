@@ -8,8 +8,6 @@ import {
   useState,
 } from "react";
 
-const API = "https://musicsheets-backend.onrender.com";
-
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -41,8 +39,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const checkSession = useCallback(async () => {
     try {
-      const res = await fetch(`${API}/auth/me`, {
-        credentials: "include",
+      const res = await fetch("/api/auth/me", {
+        headers: { "Content-Type": "application/json" },
       });
       if (res.ok) {
         setUser(await res.json());
@@ -62,27 +60,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [checkSession]);
 
   const login = async (email: string, password: string) => {
-    const res = await fetch(`${API}/auth/login`, {
+    const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
       body: JSON.stringify({ email, password }),
     });
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err?.detail ?? "Login failed");
+      const detail = err?.detail;
+      if (Array.isArray(detail)) {
+        throw new Error(detail.map((d: { msg: string }) => d.msg).join(" "));
+      }
+      throw new Error(typeof detail === "string" ? detail : "Login failed");
     }
 
     setUser(await res.json());
   };
 
   const logout = async () => {
-    await fetch(`${API}/auth/logout`, {
-      method: "POST",
-      credentials: "include",
-    });
-    setUser(null);
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+    } finally {
+      setUser(null);
+    }
   };
 
   return (

@@ -1,17 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/lib/auth-context";
 
-const API = "https://musicsheets-backend.onrender.com";
-
 async function registerUser(name: string, email: string, password: string) {
-  const res = await fetch(`${API}/auth/register`, {
+  const res = await fetch("/api/auth/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    credentials: "include",
     body: JSON.stringify({ name, email, password }),
   });
   if (!res.ok) {
@@ -26,10 +23,16 @@ async function registerUser(name: string, email: string, password: string) {
   return res.json();
 }
 
-
 export default function LoginPage() {
-  const { login } = useAuth();
+  const { user, loading, login } = useAuth();
   const router = useRouter();
+
+  // Redirect to dashboard if already authenticated
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace("/dashboard");
+    }
+  }, [loading, user, router]);
 
   const [mode, setMode] = useState<"login" | "register">("login");
   const [name, setName] = useState("");

@@ -24,7 +24,12 @@ export interface UseAudioUploadReturn {
   reset: () => void;
 }
 
-export function useAudioUpload(apiUrl: string = `${process.env.NEXT_PUBLIC_API_URL}/api/upload`): UseAudioUploadReturn {
+const DEFAULT_UPLOAD_URL = `${(
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://musicsheets-backend.onrender.com"
+).replace(/\/$/, "")}/api/upload`;
+
+export function useAudioUpload(apiUrl: string = DEFAULT_UPLOAD_URL): UseAudioUploadReturn {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<UploadStatus>("idle");
   const [progress, setProgress] = useState<number>(0);

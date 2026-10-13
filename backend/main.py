@@ -7,6 +7,7 @@ Routes:
   POST /auth/logout    — clear the cookie
   GET  /auth/me        — return current user from cookie
 """
+import os
 from datetime import datetime
 from typing import Optional
 
@@ -37,9 +38,25 @@ Base.metadata.create_all(bind=engine)
 # ---------------------------------------------------------------------------
 app = FastAPI(title="MusicSheets API", version="0.1.0")
 
+def is_production() -> bool:
+    return os.getenv("ENVIRONMENT", "").lower() == "production" or os.getenv("RENDER", "").lower() == "true"
+
+allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "")
+origins = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3000",
+    "https://musicsheets-frontend.onrender.com",
+]
+if allowed_origins_env:
+    for o in allowed_origins_env.split(","):
+        stripped = o.strip()
+        if stripped and stripped not in origins:
+            origins.append(stripped)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000","http://localhost:3001","https://musicsheets-frontend.onrender.com",],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -144,12 +161,14 @@ def login(body: LoginRequest, response: Response, db: Session = Depends(get_db))
         )
 
     token = create_access_token({"sub": str(user.id)})
+    prod = is_production()
     response.set_cookie(
         key=COOKIE_NAME,
         value=token,
         httponly=True,
-        samesite="lax",
-        secure=False,   # Set to True in production (HTTPS)
+        samesite="none" if prod else "lax",
+        secure=True if prod else False,
+        path="/",
         max_age=60 * 60,  # 1 hour
     )
     return user
@@ -157,7 +176,13 @@ def login(body: LoginRequest, response: Response, db: Session = Depends(get_db))
 
 @app.post("/auth/logout", status_code=status.HTTP_204_NO_CONTENT)
 def logout(response: Response):
-    response.delete_cookie(key=COOKIE_NAME, samesite="lax")
+    prod = is_production()
+    response.delete_cookie(
+        key=COOKIE_NAME,
+        path="/",
+        samesite="none" if prod else "lax",
+        secure=True if prod else False,
+    )
 
 
 @app.get("/auth/me", response_model=UserResponse)
