@@ -2,9 +2,12 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_TAG = "build-${BUILD_NUMBER}"
-    }
+    
+environment {
+    IMAGE_TAG = "build-${BUILD_NUMBER}"
+    NEXT_PUBLIC_API_URL = "https://musicsheets-backend-cicd.onrender.com"
+}
+
 
     stages {
         stage('Checkout') {
@@ -19,35 +22,12 @@ pipeline {
             }
         }
 
-       
-stage('Deploy to Render') {
+      stage('Build Docker Images') {
     steps {
-        withCredentials([
-            string(
-                credentialsId: 'render-frontend-deploy-hook',
-                variable: 'RENDER_FRONTEND_HOOK'
-            ),
-            string(
-                credentialsId: 'render-backend-deploy-hook',
-                variable: 'RENDER_BACKEND_HOOK'
-            )
-        ]) {
-            bat '''
-                @echo off
-                echo Triggering Render frontend deployment...
-                curl --fail --silent --show-error "%RENDER_FRONTEND_HOOK%"
-                if errorlevel 1 exit /b 1
-
-                echo Triggering Render backend deployment...
-                curl --fail --silent --show-error "%RENDER_BACKEND_HOOK%"
-                if errorlevel 1 exit /b 1
-
-                echo Render deployment requests submitted.
-            '''
-        }
+        bat 'docker compose build'
+        bat 'docker images'
     }
 }
-
 
         stage('Tag Latest Images') {
             steps {
@@ -73,15 +53,26 @@ stage('Deploy to Render') {
                 }
             }
         }
-        
-        stage('Deploy') {
-            steps {
-                bat 'docker compose down'
-                bat 'set "IMAGE_TAG=%IMAGE_TAG%" && docker compose pull'
-                bat 'set "IMAGE_TAG=%IMAGE_TAG%" && docker compose up -d'
-                bat 'docker compose ps'
-            }
+   
+
+stage('Deploy to Render') {
+    steps {
+        withCredentials([
+            string(credentialsId: 'render-backend-deploy-hook',
+                   variable: 'RENDER_BACKEND_HOOK'),
+            string(credentialsId: 'render-frontend-deploy-hook',
+                   variable: 'RENDER_FRONTEND_HOOK')
+        ]) {
+            bat '''
+                powershell -NoProfile -NonInteractive -Command "$ErrorActionPreference = 'Stop'; Invoke-WebRequest -Uri $env:RENDER_BACKEND_HOOK -Method Post"
+            '''
+            bat '''
+                powershell -NoProfile -NonInteractive -Command "$ErrorActionPreference = 'Stop'; Invoke-WebRequest -Uri $env:RENDER_FRONTEND_HOOK -Method Post"
+            '''
+        }
+    }
 }
+
     }
 
     post {
