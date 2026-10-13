@@ -21,7 +21,7 @@ pipeline {
 
         stage('Build Docker Images') {
             steps {
-                bat 'docker compose build'
+                bat 'set "IMAGE_TAG=%IMAGE_TAG%" && docker compose build'
                 bat 'docker images'
             }
         }
